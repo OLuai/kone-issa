@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button,SafeAreaView,Pressable,ActivityIndicator} from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, Pressable, ActivityIndicator } from 'react-native';
 import * as Contacts from 'expo-contacts';
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { checkBeggars } from './Helpers';
 import Modal from "react-native-modal";
 
@@ -57,6 +57,8 @@ export default function App() {
   const [random, setRandom] = useState(getRandomInt());
   const [indicator, setIndicator] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [resultVisible, setResultVisible] = useState(false);
+  const [resultText, setResultText] = useState({ header: "", message: "" });
   // useEffect(() => {
   //   (async () => {
   //     const { status } = await Contacts.requestPermissionsAsync();
@@ -77,24 +79,41 @@ export default function App() {
   const buttonClick = () => {
     setIndicator(true);
     checkBeggars().then(result => {
-      console.log('result ----->', result);
-      setRandom(getRandomInt);
+      // console.log('result ----->', result);
+      let header = "";
+      let message = "";
+      if (!result.success) {
+        header = "Erreur !";
+        message = "Veuillez authoriser l'accès à vos contacts.";
+      }
+      else {
+        header = `Vous avez ${result.dataCount} contact(s) dans la liste`;
+        result.data.forEach((contact, ind) => {
+          if (ind === 0)
+            message += contact.name
+          else
+            message += "  " + contact.name
+        })
+      }
+      setResultText({ header, message });
+      setResultVisible(true);
     }).finally(() => {
-      setTimeout(() => {
-        setIndicator(false);
-      }, 2000)
-      // setIndicator(false);
+      // setTimeout(() => {
+      //   setIndicator(false);
+      // }, 2000)
+      setRandom(getRandomInt);
+      setIndicator(false);
     });
   };
-  const buttonInfo = ()=>{
-    console.log("====>=====>====>====>=====>");
+  const buttonInfo = () => {
+    // console.log("====>=====>====>====>=====>");
     setModalVisible(!isModalVisible);
   }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.info}>
         <Pressable onPress={buttonInfo}>
-          <Text style={{fontSize:25}}>❔</Text>
+          <Text style={{ fontSize: 25 }}>❔</Text>
         </Pressable>
       </View>
 
@@ -117,11 +136,18 @@ export default function App() {
 
       <Text style={styles.powerBy}>Powered by maraBOOT & GhostScripter
       </Text>
-      <Modal isVisible={isModalVisible}>
-        <View style={{ flex: 1,marginTop:50,justifyContent:"center",alignItems:"center",backgroundColor:"#fff" }}>
-          <Text style={{color:"#000",margin:10,fontSize:20}}>Bonjour, nous avons créé cette application en réponse à un buzz (Koné Issa le charmeur de ces dames 😉). C'est juste pour s'amuser oh, c'est pas palabre. Neamoins si vous êtes intéressé par nos services, n'hésitez pas à nous contacter.</Text>
-          <Text style={{color:"#000",margin:10,fontSize:20}}>Vous avez un projet de developpement informatique ? Venez nous voir, on va faire ça propre ! Et dans un bref delais.</Text>
-          <Text style={{color:"#000",margin:10,fontSize:20, fontWeight:"800"}}>Mail : maraboot225@gmail.com</Text>
+      <Modal isVisible={resultVisible} onRequestClose={() => { setResultVisible(false) }}>
+        <View style={{ flex: 1, marginVertical: 200, justifyContent: "center", alignItems: "center", backgroundColor: "#fff" }}>
+          <Text style={{ color: "#000", margin: 10, fontSize: 20, fontWeight: "800" }}>{resultText.header}</Text>
+          <Text style={{ color: "#000", margin: 10, fontSize: 20 }}>{resultText.message}</Text>
+          <Button title="Masquer" color="#841584" onPress={() => setResultVisible(false)} />
+        </View>
+      </Modal>
+      <Modal isVisible={isModalVisible} onRequestClose={buttonInfo}>
+        <View style={{ flex: 1, marginTop: 50, justifyContent: "center", alignItems: "center", backgroundColor: "#fff" }}>
+          <Text style={{ color: "#000", margin: 10, fontSize: 20 }}>Bonjour, nous avons créé cette application en réponse à un buzz (Koné Issa le charmeur de ces dames 😉). C'est juste pour s'amuser oh, c'est pas palabre. Neamoins si vous êtes intéressé par nos services, n'hésitez pas à nous contacter.</Text>
+          <Text style={{ color: "#000", margin: 10, fontSize: 20 }}>Vous avez un projet de developpement informatique ? Venez nous voir, on va faire ça propre ! Et dans un bref délais.</Text>
+          <Text style={{ color: "#000", margin: 10, fontSize: 20, fontWeight: "800" }}>Mail : maraboot225@gmail.com</Text>
           <Button title="Masquer" color="#841584" onPress={buttonInfo} />
         </View>
       </Modal>
@@ -137,12 +163,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     alignItems: 'center',
   },
-  info:{
+  info: {
     //backgroundColor:"red",
-    margin:10,
-    marginTop:40,
-    alignSelf:"flex-end"
-    
+    margin: 10,
+    marginTop: 40,
+    alignSelf: "flex-end"
+
   },
   header: {
     fontSize: 41,
