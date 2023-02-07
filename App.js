@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button,SafeAreaView,Pressable,ActivityIndicator} from 'react-native';
 import * as Contacts from 'expo-contacts';
 import { useEffect,useState } from 'react';
+import { checkBeggars } from './Helpers';
 import Modal from "react-native-modal";
 
 
@@ -46,7 +47,7 @@ export default function App() {
     },
     {
       header: "Poutchoulou",
-      body: "C'est l'homme hein. "
+      body: "C'est l'homme hein 🔥. "
     },
   ];
   function getRandomInt() {
@@ -55,6 +56,7 @@ export default function App() {
   }
   const [random, setRandom] = useState(getRandomInt());
   const [indicator, setIndicator] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
   // useEffect(() => {
   //   (async () => {
   //     const { status } = await Contacts.requestPermissionsAsync();
