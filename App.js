@@ -145,8 +145,8 @@ export default function App() {
       </Modal>
       <Modal isVisible={isModalVisible} onRequestClose={buttonInfo}>
         <View style={{ flex: 1, marginTop: 50, justifyContent: "center", alignItems: "center", backgroundColor: "#fff" }}>
-          <Text style={{ color: "#000", margin: 10, fontSize: 20 }}>Bonjour, nous avons créé cette application en réponse à un buzz (Koné Issa le charmeur de ces dames 😉). C'est juste pour s'amuser oh, c'est pas palabre. Neamoins si vous êtes intéressé par nos services, n'hésitez pas à nous contacter.</Text>
-          <Text style={{ color: "#000", margin: 10, fontSize: 20 }}>Vous avez un projet de developpement informatique ? Venez nous voir, on va faire ça propre ! Et dans un bref délais.</Text>
+          <Text style={{ color: "#000", margin: 10, fontSize: 20, textAlign:"justify" }}>Bonjour, nous avons créé cette application en réponse à un buzz (Koné Issa le charmeur de ces dames 😉). C'est juste pour s'amuser oh, c'est pas palabre. Neamoins si vous êtes intéressé par nos services, n'hésitez pas à nous contacter.</Text>
+          <Text style={{ color: "#000", margin: 10, fontSize: 20, textAlign:"justify" }}>Vous avez un projet de developpement informatique ? Venez nous voir, on va faire ça propre ! Et dans un bref délais.</Text>
           <Text style={{ color: "#000", margin: 10, fontSize: 20, fontWeight: "800" }}>Mail : maraboot225@gmail.com</Text>
           <Button title="Masquer" color="#841584" onPress={buttonInfo} />
         </View>
