@@ -1,7 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button,SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Button,SafeAreaView,Pressable} from 'react-native';
 import * as Contacts from 'expo-contacts';
 import { useEffect,useState } from 'react';
+import Modal from "react-native-modal";
+
+
 export default function App() {
 
   let messages = [
@@ -51,6 +54,7 @@ export default function App() {
     return Math.floor(Math.random() * max);
   }
   const [random,setRandom]=useState(getRandomInt());
+  const [isModalVisible, setModalVisible] = useState(false);
   useEffect(() => {
     (async () => {
       const { status } = await Contacts.requestPermissionsAsync();
@@ -69,11 +73,19 @@ export default function App() {
 
   //Fonction qui est appellee lorsqu'on clique sur le bouton
   const buttonClick = () => {
-
+    
   };
+  const buttonInfo = ()=>{
+    console.log("====>=====>====>====>=====>");
+    setModalVisible(!isModalVisible);
+  }
   return (
     <SafeAreaView style={styles.container}>
-      
+      <View style={styles.info}>
+        <Pressable onPress={buttonInfo}>
+          <Text style={{fontSize:25}}>❔</Text>
+        </Pressable>
+      </View>
       <View style={styles.messageContainer}>
         <Text style={styles.header}>{messages[random].header}</Text>
         <Text style={styles.message}>{messages[random].body}
@@ -91,6 +103,14 @@ export default function App() {
 
       <Text style={styles.powerBy}>Powered by Ghostscripter
       </Text>
+      <Modal isVisible={isModalVisible}>
+        <View style={{ flex: 1,marginTop:50,justifyContent:"center",alignItems:"center",backgroundColor:"#fff" }}>
+          <Text style={{color:"#000",margin:10,fontSize:20}}>Bonjour, nous avons créé cette application en réponse à un buzz (Koné Issa le charmeur de ces dames 😉). C'est juste pour s'amuser oh, c'est pas palabre. Neamoins si vous êtes intéressé par nos services, n'hésitez pas à nous contacter.</Text>
+          <Text style={{color:"#000",margin:10,fontSize:20}}>Vous avez un projet de developpement informatique ? Venez nous voir, on va faire ça propre ! Et dans un bref delais.</Text>
+          <Text style={{color:"#000",margin:10,fontSize:20, fontWeight:"800"}}>Mail : maraboot225@gmail.com</Text>
+          <Button title="Masquer" color="#841584" onPress={buttonInfo} />
+        </View>
+      </Modal>
 
       {/* <StatusBar style="auto" /> */}
     </SafeAreaView>
@@ -104,7 +124,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   info:{
-    backgroundColor:"red",
+    //backgroundColor:"red",
+    margin:10,
+    marginTop:40,
+    alignSelf:"flex-end"
     
   },
   header:{
