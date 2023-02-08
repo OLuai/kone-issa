@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "kone-issa",
+    "name": "Kone Issa",
     "slug": "kone-issa",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/ico.png",
     "userInterfaceStyle": "dark",
@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/pngegg.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.oluai.koneissa"
+      "package": "com.maraboot.koneissa"
     },
     "web": {
       "favicon": "./assets/favicon.png"
